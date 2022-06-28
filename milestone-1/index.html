@@ -7,10 +7,150 @@
     <title>Document</title>
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    
+    <!-- app wrapper -->
+    <div class="app-wrapper" id="root">
+        <div class="container">
+            <!-- contacts col -->
+            <div class="contacts">
+                <div class="col-container">
+                    <!-- user info -->
+                    <div class="user-info flex-center space-betw">
+                        <div class="flex-center">
+                            <img class="propic" src="img/avatar_io.jpg" alt="avatar io">
+                            <span class="bald">Nome Utente</span>
+                        </div>
+                        <div>
+                            <i class="fa-solid fa-circle-notch"></i>
+                            <i class="fa-solid fa-message"></i>
+                            <i class="fa-solid fa-ellipsis-vertical"></i>
+                        </div>
+                    </div>
+                </div>
+                <!-- notifications -->
+                <div class="notifications flex-center">
+                    <div class="bell-back">
+                        <i class="fa-solid fa-bell-slash"></i>
+                    </div>
+                    <div>
+                        <h3>Ricevi notifiche di nuovi messaggi</h3>
+                        <span>
+                            <a href="#">Attiva notifiche adesso.</a>
+                        </span>
+                    </div>
+                </div>
+                <!-- fine notifications -->
+
+                <!-- input -->
+                <div class="input">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" name="userFilter" id="userFilter" placeholder="           Cerca o inizia nuova chat">
+                </div>
+                <!-- fine input -->
+
+                <!-- user list -->
+                <ul class="user-list">
+                    <li v-for="contacts, index in contacts" class="contact-padding active">
+                        <div class="flex">
+                            <div>
+                                <img class="propic" v-bind:src="'img/avatar' + contacts.avatar + '.jpg'" alt="avatar 1">
+                            </div>
+                            <div>
+                                <span class="bald padding-l">
+                                    {{ contacts.name }}
+                                </span>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <!-- fine user list -->
+            </div>
+            <!-- fine contacts -->
+
+            <!-- chat col -->
+            <div class="chat-container">
+                <!-- current chat info -->
+                <div class="chat-info">
+                    <!-- username & propic -->
+                    <div class="user-info flex space-betw align-center back-color-info">
+                        <div class="flex-center">
+                            <img src="img/avatar_1.jpg" alt="avatar" class="propic">
+                            <div class="flex-col">
+                                <span class="padding-l bald">
+                                    [USER INFO]
+                                </span>
+                                <span class="padding-l">
+                                    [ULTIMO ACCESSO]
+                                </span>
+                            </div>
+                        </div>
+                        <div>
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            <i class="fa-solid fa-paperclip"></i>
+                            <i class="fa-solid fa-ellipsis-vertical"></i>
+                        </div>
+                    </div>
+                    <!-- fine username & propic -->
+
+                    <div class="chat">
+                        <div class="inner-chat">
+                            <!-- messaggio ricevuto -->
+                            <span class="recieved">
+                                <div>
+                                    La Marianna va in campagna.
+                                </div>
+                                <div class="text-right times">
+                                    [ORA]
+                                </div>
+                            </span>
+                            <!-- fine messaggio ricevuto -->
+                        </div>
+                        <div class="inner-chat flex-end">
+                            <!-- messaggio inviato -->
+                            <span class="sent">
+                                <div>
+                                    Sicuro di non aver sbagliato chat?
+                                </div>
+                                <div class="text-right times">
+                                    [ORA]
+                                </div>
+                            </span>
+                            <!-- fine messaggio inviato -->
+                        </div>
+                        <div class="inner-chat">
+                            <!-- messaggio ricevuto -->
+                            <span class="recieved">
+                                <div>
+                                    Sorry.
+                                </div>
+                                <div class="text-right times">
+                                    [ORA]
+                                </div>
+                            </span>
+                            <!-- fine messaggio ricevuto -->
+                        </div>
+                    </div>
+                </div>
+                <!-- fine current chat info -->
+                <div class="flex user-input">
+                    <div class="flex space width-100">
+                        <div class="align-self">
+                            <i class="fa-regular fa-face-smile"></i>
+                        </div>
+                        <div class="width">
+                            <input class="width-100" type="text" name="message" id="userMessage" placeholder="Scrivi un messaggio">
+                        </div>
+                        <div class="align-self">
+                            <i class="fa-solid fa-microphone"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <script type="text/javascript" src="js/script.js"></script>
 </body>
 </html>
