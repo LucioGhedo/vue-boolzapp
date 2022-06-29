@@ -1,7 +1,18 @@
 var app = new Vue({
     el: '#root',
     data: {
+      userFilterText: '',
       currentActiveChat: 0,
+      newMessage: {
+        text: '',
+        status: 'sent',
+        date: dayjs().format('DD-MM-YYYY HH:mm:ss'),
+      },
+      newBotMessage: {
+        text: 'ok',
+        status: 'received',
+        date: dayjs().format('DD-MM-YYYY HH:mm:ss'),
+      },
       contacts: [
         {
           name: 'Michele',
@@ -92,6 +103,29 @@ var app = new Vue({
     methods: {
       openNewChat(chatIndex) {
         this.currentActiveChat = chatIndex
+      },
+      sendNewMsg() {
+        this.contacts[this.currentActiveChat].messages.push(this.newMessage)
+        this.newMessage = {
+          text: '',
+          status: 'sent',
+          date: 'test'
+        }
+        setTimeout(this.response, 5000)
+      },
+      response() {
+        this.contacts[this.currentActiveChat].messages.push(this.newBotMessage)
+      },
+      elementFilter() {
+        const userInputLower = this.userFilterText.toLowerCase();
+        this.contacts.forEach(element => {
+          const elementTextLower = element.name.toLowerCase();
+          if(elementTextLower.includes(userInputLower)) {
+              element.visible = true;
+          } else {
+              element.visible = false;
+          }
+        });
       }
     }
   

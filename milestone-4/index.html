@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.3/dayjs.min.js" integrity="sha512-Ot7ArUEhJDU0cwoBNNnWe487kjL5wAOsIYig8llY/l0P2TUFwgsAHVmrZMHsT8NGo+HwkjTJsNErS6QqIkBxDw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="css/style.css">
@@ -49,13 +50,13 @@
                     <label for="contacts-search" class="label">
                         <i class="fa-solid fa-magnifying-glass"></i>
                     </label>
-                    <input type="text" name="userFilter" id="userFilter" placeholder="  Cerca o inizia nuova chat">
+                    <input type="text" name="userFilter" @keyup="elementFilter()" v-model="userFilterText" id="userFilter" placeholder="  Cerca o inizia nuova chat">
                 </div>
                 <!-- fine input -->
 
                 <!-- user list -->
                 <ul class="user-list">
-                    <li v-for="contacts, index in contacts" class="contact-padding" :class="currentActiveChat === index ? 'active' : ''" @click="openNewChat(index)">
+                    <li v-for="contacts, index in contacts" v-if="contacts.visible" class="contact-padding" :class="currentActiveChat === index ? 'active' : ''" @click="openNewChat(index)">
                         <div class="flex">
                             <div>
                                 <img class="propic" v-bind:src="'img/avatar' + contacts.avatar + '.jpg'" alt="contact.name">
@@ -119,7 +120,7 @@
                             <i class="fa-regular fa-face-smile"></i>
                         </div>
                         <div class="width">
-                            <input class="width-100" type="text" name="message" id="userMessage" placeholder=" Scrivi un messaggio">
+                            <input @keyup.enter="sendNewMsg()" v-model="newMessage.text" class="width-100" type="text" name="message" id="userMessage" placeholder=" Scrivi un messaggio">
                         </div>
                         <div class="align-self">
                             <i class="fa-solid fa-microphone"></i>
