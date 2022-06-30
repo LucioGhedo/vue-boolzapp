@@ -24,6 +24,7 @@
                             <img class="propic" src="img/avatar_io.jpg" alt="avatar io">
                             <span class="bald">Nome Utente</span>
                         </div>
+                        <!-- icone -->
                         <div class="icons-top">
                             <i class="fa-solid fa-circle-notch"></i>
                             <i class="fa-solid fa-message"></i>
@@ -50,23 +51,39 @@
                     <label for="contacts-search" class="label">
                         <i class="fa-solid fa-magnifying-glass"></i>
                     </label>
-                    <input type="text" name="userFilter" @keyup="elementFilter()" v-model="userFilterText" id="userFilter" placeholder="  Cerca o inizia nuova chat">
+                    <input 
+                        type="text" 
+                        name="userFilter" 
+                        @keyup="elementFilter()" 
+                        v-model="userFilterText" 
+                        id="userFilter" 
+                        placeholder="  Cerca o inizia nuova chat">
                 </div>
                 <!-- fine input -->
 
                 <!-- user list -->
                 <ul class="user-list">
-                    <li v-for="contacts, index in contacts" v-if="contacts.visible" class="contact-padding" :class="currentActiveChat === index ? 'active' : ''" @click="openNewChat(index)">
+                    <!-- elemento chat -->
+                    <li 
+                        v-for="contacts, index in contacts" 
+                        v-if="contacts.visible" 
+                        class="contact-padding" 
+                        :class="currentActiveChat === index ? 'active' : ''" 
+                        @click="openNewChat(index)">
+
                         <div class="flex">
                             <div>
                                 <img class="propic" v-bind:src="'img/avatar' + contacts.avatar + '.jpg'" alt="contact.name">
                             </div>
                             <div>
+                                <!-- nome chat -->
                                 <span class="bald padding-l">
                                     {{ contacts.name }}
                                 </span>
+                                <!-- ultimo msg e ora/data invio -->
                                 <div class="grey padding-l">
                                     {{sliceMessage(contacts.messages[contacts.messages.length - 1].text)}}
+                                    {{ contacts.messages[contacts.messages.length - 1].date }}
                                 </div>
                             </div>
                         </div>
@@ -76,44 +93,62 @@
             </div>
             <!-- fine contacts -->
 
-            <!-- chat col -->
+            <!-- CHAT COL DX -->
             <div class="chat-container">
                 <!-- current chat info -->
                 <div class="chat-info">
                     <!-- username & propic -->
-                    <div class="user-info flex space-betw align-center back-color-info">
-                        <div class="flex-center">
-                            <img :src="'img/avatar' + contacts[currentActiveChat].avatar + '.jpg'" alt="avatar" class="propic">
-                            <div class="flex-col">
-                                <span class="padding-l bald">
-                                    {{contacts[currentActiveChat].name}}
-                                </span>
-                                <span class="padding-l">
-                                    Ultimo accesso oggi alle {{ lastSeen }}
-                                </span>
+                    <div class="fixed">
+                        <div class="user-info flex space-betw align-center back-color-info">
+                            <div class="flex-center">
+                                <!-- img utente attivo -->
+                                <img 
+                                    :src="'img/avatar' + contacts[currentActiveChat].avatar + '.jpg'" 
+                                    alt="avatar" 
+                                    class="propic">
+                                <!-- nome e ultimo accesso chat attiva -->
+                                <div class="flex-col">
+                                    <span class="padding-l bald">
+                                        {{contacts[currentActiveChat].name}}
+                                    </span>
+                                    <span class="padding-l">
+                                        Ultimo accesso oggi alle {{ lastSeen }}
+                                    </span>
+                                </div>
                             </div>
-                        </div>
-                        <div>
-                            <i class="fa-solid fa-magnifying-glass"></i>
-                            <i class="fa-solid fa-paperclip"></i>
-                            <i class="fa-solid fa-ellipsis-vertical"></i>
+                            <!-- icone -->
+                            <div>
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                                <i class="fa-solid fa-paperclip"></i>
+                                <i class="fa-solid fa-ellipsis-vertical"></i>
+                            </div>
                         </div>
                     </div>
                     <!-- fine username & propic -->
 
                     <div class="chat">
                         <!-- messaggio ricevuto -->
-                        <div class="inner-chat" v-for="message in contacts[currentActiveChat].messages" :class="message.status === 'sent' ? 'flex-end' : '' ">
+                        <div 
+                            class="inner-chat" 
+                            v-for="(message, index) in contacts[currentActiveChat].messages" 
+                            :class="message.status === 'sent' ? 'flex-end' : '' ">
+                            <!-- testo messaggio -->
                             <span :class="message.status === 'sent' ? 'sent' : 'recieved' ">
                                 <p class="msg-text">
                                     {{ message.text }}
                                 </p>
+                                <!-- data msg -->
                                 <div class="text-right times">
                                     {{ message.date }}
                                 </div>
-                                <div class="chevron" @click="deleteMsg()">
+                                <!-- icona menù tendina -->
+                                <div class="chevron" @click="chevronMenu(index)">
                                     <i class="fa-solid fa-chevron-down"></i>
                                 </div>
+                                <div class="none" :class="{'drop-menu' : index === clickedMsg}">
+                                    <span>Info messaggio</span>
+                                    <span @click="deleteMessage(index)">Elimina messaggio</span>
+                                  </div>
                             </span>
                         </div>
                         <!-- fine messaggio ricevuto -->
@@ -126,7 +161,15 @@
                             <i class="fa-regular fa-face-smile"></i>
                         </div>
                         <div class="width">
-                            <input @keyup.enter="sendNewMsg()" v-model="newMessage.text" class="width-100" type="text" name="message" id="userMessage" placeholder=" Scrivi un messaggio">
+                            <!-- input msg -->
+                            <input 
+                                @keyup.enter="sendNewMsg()" 
+                                v-model="newMessage.text" 
+                                class="width-100" 
+                                type="text" 
+                                name="message" 
+                                id="userMessage" 
+                                placeholder=" Scrivi un messaggio">
                         </div>
                         <div class="align-self">
                             <i class="fa-solid fa-microphone"></i>

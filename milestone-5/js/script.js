@@ -14,6 +14,7 @@ var app = new Vue({
         status: 'received',
         date: dayjs().format('DD-MM-YYYY HH:mm:ss'),
       },
+      clickedMsg: null,
       contacts: [
         {
           name: 'Michele',
@@ -138,8 +139,17 @@ var app = new Vue({
         }
         return shortMsg
       },
-      deleteMsg() {
-        console.log('difficile...')
+      chevronMenu(msgIndex){
+					
+        if(this.clickedMsg !== msgIndex){
+          this.clickedMsg = msgIndex;
+        } else{
+          this.clickedMsg = null;
+        }
+      },
+      deleteMessage(msgIndex){
+        this.clickedMsg = null;
+        this.contacts[this.currentActiveChat].messages.splice(msgIndex, 1);
       }
     }
   
