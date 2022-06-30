@@ -1,7 +1,19 @@
 var app = new Vue({
     el: '#root',
     data: {
+      userFilterText: '',
       currentActiveChat: 0,
+      lastSeen : dayjs().format('HH:mm'),
+      newMessage: {
+        text: '',
+        status: 'sent',
+        date: dayjs().format('DD-MM-YYYY HH:mm:ss'),
+      },
+      newBotMessage: {
+        text: 'ok',
+        status: 'received',
+        date: dayjs().format('DD-MM-YYYY HH:mm:ss'),
+      },
       contacts: [
         {
           name: 'Michele',
@@ -92,6 +104,42 @@ var app = new Vue({
     methods: {
       openNewChat(chatIndex) {
         this.currentActiveChat = chatIndex
+      },
+      sendNewMsg() {
+        const trimmedMsg = this.newMessage.text.trim()
+        if (trimmedMsg.length > 0) {
+          this.contacts[this.currentActiveChat].messages.push(this.newMessage)
+          this.newMessage = {
+            text: '',
+            status: 'sent',
+            date: dayjs().format('DD-MM-YYYY HH:mm:ss')
+          }
+          setTimeout(this.response, 1000)
+        }
+      },
+      response() {
+        this.contacts[this.currentActiveChat].messages.push(this.newBotMessage)
+      },
+      elementFilter() {
+        const userInputLower = this.userFilterText.toLowerCase();
+        this.contacts.forEach(element => {
+          const elementTextLower = element.name.toLowerCase();
+          if(elementTextLower.includes(userInputLower)) {
+              element.visible = true;
+          } else {
+              element.visible = false;
+          }
+        });
+      },
+      sliceMessage(msg) {
+        let shortMsg = msg;
+        if(msg.length > 23){
+          shortMsg = msg.slice(0, 24) + "..";
+        }
+        return shortMsg
+      },
+      deleteMsg() {
+        console.log('difficile...')
       }
     }
   
